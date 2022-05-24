@@ -1,7 +1,7 @@
 $(document).ready(onReady);
 
 function onReady() {
-  $(".submitBtn").on("click", onSubmit);
+  $(".submitButton").on("click", onSubmit);
   $(".operator").on("click", grabOperator);
   getEquation();
 }
@@ -25,13 +25,16 @@ function onSubmit() {
     method: "POST",
     data: equation,
   })
-    .then(() => {
-      console.log("POST /math success");
+    .then((response) => {
+      console.log("POST /math success", response);
     })
     .catch((err) => {
       console.log("oh no", err);
     });
+  getEquation();
   // empty inputs
+  $(".num1").val("");
+  $(".num2").val("");
 }
 // GET fresh data vis GET request
 function getEquation() {
@@ -41,9 +44,10 @@ function getEquation() {
   })
     .then((response) => {
       console.log("GET request successful", response);
-      renderMath();
+      renderMath(response);
     })
     .catch((err) => {
+      console.log("GET /math", err);
       // Display error message on body
       $("body").html(`
       <h1>
