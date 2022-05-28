@@ -21,7 +21,7 @@ app.listen(PORT, () => {
 });
 
 // Empty array to store inputs
-let inputs = [];
+const inputs = [];
 
 // GET /calculate request to get back data from the serve on /calculate route
 app.get("/calculate", (req, res) => {
@@ -31,7 +31,7 @@ app.get("/calculate", (req, res) => {
 
 // POST request to add date to server on /calculate route
 app.post("/calculate", (req, res) => {
-  // req.body is data submitted in request body, populared with bodyParser
+  // req.body is data submitted in request body, populated with bodyParser
   let newInput = req.body;
   let operator = newInput.operator;
   // parseFloat to convert to string and return floating point number
