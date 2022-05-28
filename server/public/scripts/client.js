@@ -53,4 +53,17 @@ function postInput(inputData) {
     });
 }
 
-function getHistory() {}
+function getHistory() {
+  $.ajax({
+    method: "GET",
+    url: "/calculate",
+  })
+    .then((response) => {
+      history = response;
+      console.log("In GET /calculate client side", history);
+      render();
+    })
+    .catch((err) => {
+      console.log("GET failed client side", err);
+    });
+}
