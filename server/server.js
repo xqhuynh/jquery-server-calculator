@@ -20,48 +20,41 @@ app.listen(PORT, () => {
   console.log("Listening on port", PORT);
 });
 
-// Set up empty array of objects to store calculations
-let calculations = [
-  {
-    number1: 2,
-    operator: "+",
-    number2: 4,
-  },
-];
+// Empty array to store inputs
+const inputs = [];
 
-// GET math endpoint
-app.get("/math", (req, res) => {
-  // Code runs when user goes to localhost:5000/inventory
-  console.log("In GET /math");
-  // Send math back to client
-  res.send(calculations);
+// GET /calculate request to get back data from the serve on /calculate route
+app.get("/calculate", (req, res) => {
+  console.log("In GET /calculate");
+  res.send(inputs);
 });
 
-// POST math endpoint
-app.post("/math", (req, res) => {
-  // req.body is the data sent from the client
-  let number1 = req.body.number1;
-  let number2 = req.body.number2;
-  let operator = req.body.operator;
-  let answer = calcInput(number1, number2, operator);
-  console.log("in POST /math");
-  // Add new equation to calculations array object
-  calculations.push(number1, operator, number2, answer);
-  res.sendStatus(201);
-});
+// POST request to add date to server on /calculate route
+app.post("/calculate", (req, res) => {
+  // req.body is data submitted in request body, populated with bodyParser
+  let newInput = req.body;
+  let operator = newInput.operator;
+  // Use Number function or else num1 will concatenate with num2
+  let num1 = Number(newInput.num1);
+  let num2 = Number(newInput.num2);
 
-// Function to calculate inputs
-function calcInput(number1, number2, operator) {
-  if (operator === "+") {
-    return number1 + number2;
+  // Switch statement for math calculations depending on math operator
+  switch (operator) {
+    case "+":
+      newInput.total = num1 + num2;
+      break;
+    case "-":
+      newInput.total = num1 - num2;
+      break;
+    case "*":
+      newInput.total = num1 * num2;
+      break;
+    case "/":
+      newInput.total = num1 / num2;
+    default:
+      0;
   }
-  if (operator === "-") {
-    return number1 - number2;
-  }
-  if (operator === "*") {
-    return number1 * number2;
-  }
-  if (operator === "/") {
-    return number1 / number2;
-  }
-}
+  // Push new inputs into empty inputs array
+  inputs.push(newInput);
+  res.sendStatus(200);
+});

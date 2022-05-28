@@ -4,21 +4,45 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Server Calculator</title>
+    <script src="./vendors/jquery.js"></script>
+    <script src="./scripts/client.js"></script>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <h1>Server Side Calculator</h1>
-    <input class="num1" type="number" placeholder="Enter number" />
-    <button value="+" class="operator">+</button>
-    <button value="-" class="operator">-</button>
-    <button value="*" class="operator">*</button>
-    <button value="/" class="operator">/</button>
-    <input class="num2" type="number" placeholder="Enter number" />
-    <button type="submit" class="submitButton">=</button>
-    <button type="submit" class="clearButton">C</button>
-    <h3 class="displayResult">$PLACEHOLDER</h3>
-    <ul class="historyResult">
-      <li>$PLACEHOLDER</li>
-    </ul>
+    <div class="container">
+      <header>
+        <h1>Server Side Calculator</h1>
+      </header>
+      <!-- First number input -->
+      <input
+        type="number"
+        class="numberInput1"
+        placeholder="Enter a number"
+        require
+      />
+
+      <!-- Operator buttons -->
+      <button class="mathOperator">+</button>
+      <button class="mathOperator">-</button>
+      <button class="mathOperator">*</button>
+      <button class="mathOperator">/</button>
+
+      <!-- Second number input -->
+      <input
+        type="number"
+        class="numberInput2"
+        placeholder="Enter a number"
+        require
+      />
+      <button class="equalsOperator">=</button>
+      <button class="clearOperator">C</button>
+    </div>
+    <div class="expressionResult">
+      <h3>0</h3>
+    </div>
+    <div class="historyRecord">
+      <ul></ul>
+    </div>
   </body>
 </html>

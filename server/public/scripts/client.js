@@ -1,72 +1,96 @@
 $(document).ready(onReady);
 
-function onReady() {
-  $(".submitButton").on("click", onSubmit);
-  $(".operator").on("click", grabOperator);
-  getEquation();
-}
-
+// Set global variables
 let operator;
-// turn operator into math operator
-function grabOperator() {
-  operator = $(this).val();
+let history;
+
+function onReady() {
+  console.log("in JS");
+  // Equals button click event listener
+  $(".equalsOperator").on("click", submitInputs);
+  // Clear button click event listener
+  $(".clearOperator").on("click", clearInputs);
+  // Operator button click event listener using event.target
+  $(".mathOperator").on("click", function (event) {
+    operator = event.target.innerHTML;
+  });
 }
 
-function onSubmit() {
-  let equation = {
-    number1: $(".num1").val(),
-    operator: $(".operator").val(),
-    number2: $(".num2").val(),
+// Add button function after equals is clicked
+function submitInputs() {
+  // Create new array object to store user inputs
+  const newInput = {
+    num1: $(".numberInput1").val(),
+    num2: $(".numberInput2").val(),
+    operator: operator,
+    total: "",
   };
-
-  // Ajax POST
-  $.ajax({
-    url: "/math",
-    method: "POST",
-    data: equation,
-  })
-    .then((response) => {
-      console.log("POST /math success", response);
-    })
-    .catch((err) => {
-      console.log("oh no", err);
-    });
-  getEquation();
-  // empty inputs
-  $(".num1").val("");
-  $(".num2").val("");
+  // PostInput function call
+  postInput(newInput);
+  // Call getHistory function when page loads
+  getHistory();
 }
-// GET fresh data vis GET request
-function getEquation() {
+
+// Clear button function after C is clicked
+function clearInputs() {
+  $(".numberInput1").val("");
+  $(".numberInput2").val("");
+}
+
+// Ajax GET and POST methods
+// GET method to get history from server
+function getHistory() {
   $.ajax({
-    url: "/math",
     method: "GET",
+    url: "/calculate",
   })
     .then((response) => {
-      console.log("GET request successful", response);
-      renderMath(response);
+      history = response;
+      console.log("In GET /calculate client side", history);
+      render();
     })
     .catch((err) => {
-      console.log("GET /math", err);
-      // Display error message on body
-      $("body").html(`
-      <h1>
-        We apologize for the error. Please try later. 
-      </h1>
-    `);
+      console.log("GET failed client side", err);
     });
 }
 
-// Use Ajax to get math history and append to DOM
-function renderMath(calculations) {
-  $(".historyResult").empty();
-  for (let calculation of calculations) {
-    $(".historyResult").append(`
+// POST method
+function postInput(inputData) {
+  $.ajax({
+    method: "POST",
+    url: "/calculate",
+    data: inputData,
+  })
+    .then((response) => {
+      console.log("In POST /calculate client side", response);
+      getHistory();
+    })
+    .catch((err) => {
+      console.log("POST failed client side", err);
+    });
+}
+
+// Render to DOM
+function render() {
+  // Empty results
+  $(".historyRecord").empty();
+  // Loop through history and append to DOM ex. 'num1 operator num2 = total'
+  for (let i = 0; i < history.length; i++) {
+    let result = history[i];
+    $(".historyRecord").append(`
       <li>
-        ${calculation.number1}
-        ${calculation.operator}
-        ${calculation.number2}
+        ${result.num1} ${result.operator} ${result.num2} = ${result.total}
       </li>
-  `);
+    `);
+  }
+
+  const lastIndex = history[history.length - 1];
+  if (lastIndex != undefined) {
+    $(".expressionResult").empty();
+    $(".expressionResult").append(`
+      <h3>
+        ${lastIndex.total}
+      </h3>
+    `);
   }
 }
