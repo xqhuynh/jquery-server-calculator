@@ -7,18 +7,33 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Server Side Calculator</h1>
-    <input class="num1" type="number" placeholder="Enter number" />
-    <button value="+" class="operator">+</button>
-    <button value="-" class="operator">-</button>
-    <button value="*" class="operator">*</button>
-    <button value="/" class="operator">/</button>
-    <input class="num2" type="number" placeholder="Enter number" />
-    <button type="submit" class="submitButton">=</button>
-    <button type="submit" class="clearButton">C</button>
-    <h3 class="displayResult">$PLACEHOLDER</h3>
-    <ul class="historyResult">
-      <li>$PLACEHOLDER</li>
-    </ul>
+    <header>
+      <h1>Server Side Calculator</h1>
+    </header>
+    <div class="container">
+      <!-- First number input -->
+      <input
+        type="number"
+        class="numberInput1"
+        placeholder="Enter a number"
+        require
+      />
+
+      <!-- Operator buttons -->
+      <button class="mathOperator">+</button>
+      <button class="mathOperator">-</button>
+      <button class="mathOperator">*</button>
+      <button class="mathOperator">/</button>
+
+      <!-- Second number input -->
+      <input
+        type="number"
+        class="numberInput2"
+        placeholder="Enter a number"
+        require
+      />
+      <button class="equalsOperator">=</button>
+      <button class="clearOperator">C</button>
+    </div>
   </body>
 </html>
