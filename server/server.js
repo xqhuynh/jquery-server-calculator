@@ -21,13 +21,7 @@ app.listen(PORT, () => {
 });
 
 // Empty array to store inputs
-let inputs = [
-  {
-    num1: 1,
-    operator: "+",
-    num2: 2,
-  },
-];
+let inputs = [];
 
 // GET /calculate request to get back data from the serve on /calculate route
 app.get("/calculate", (req, res) => {
