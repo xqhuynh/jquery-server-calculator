@@ -34,11 +34,11 @@ app.post("/calculate", (req, res) => {
   // req.body is data submitted in request body, populated with bodyParser
   let newInput = req.body;
   let operator = newInput.operator;
-  // parseFloat to convert to string and return floating point number
-  let num1 = parseFloat(newInput.num1);
-  let num2 = parseFloat(newInput.num2);
+  // Use Number function or else num1 will concatenate with num2
+  let num1 = Number(newInput.num1);
+  let num2 = Number(newInput.num2);
 
-  // Switch statement for math calculations
+  // Switch statement for math calculations depending on math operator
   switch (operator) {
     case "+":
       newInput.total = num1 + num2;

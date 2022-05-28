@@ -10,7 +10,7 @@ function onReady() {
   $(".equalsOperator").on("click", submitInputs);
   // Clear button click event listener
   $(".clearOperator").on("click", clearInputs);
-  // Operator button click event listener
+  // Operator button click event listener using event.target
   $(".mathOperator").on("click", function (event) {
     operator = event.target.innerHTML;
   });
@@ -25,7 +25,7 @@ function submitInputs() {
     operator: operator,
     total: "",
   };
-  // Post function call
+  // PostInput function call
   postInput(newInput);
   // Call getHistory function when page loads
   getHistory();
@@ -37,22 +37,8 @@ function clearInputs() {
   $(".numberInput2").val("");
 }
 
-// Ajax POST and GET
-function postInput(inputData) {
-  $.ajax({
-    method: "POST",
-    url: "/calculate",
-    data: inputData,
-  })
-    .then((response) => {
-      console.log("In POST /calculate client side", response);
-      getHistory();
-    })
-    .catch((err) => {
-      console.log("POST failed client side", err);
-    });
-}
-
+// Ajax GET and POST methods
+// GET method to get history from server
 function getHistory() {
   $.ajax({
     method: "GET",
@@ -68,11 +54,27 @@ function getHistory() {
     });
 }
 
+// POST method
+function postInput(inputData) {
+  $.ajax({
+    method: "POST",
+    url: "/calculate",
+    data: inputData,
+  })
+    .then((response) => {
+      console.log("In POST /calculate client side", response);
+      getHistory();
+    })
+    .catch((err) => {
+      console.log("POST failed client side", err);
+    });
+}
+
 // Render to DOM
 function render() {
   // Empty results
   $(".historyRecord").empty();
-  // Loop through history and append to DOM
+  // Loop through history and append to DOM ex. 'num1 operator num2 = total'
   for (let i = 0; i < history.length; i++) {
     let result = history[i];
     $(".historyRecord").append(`
