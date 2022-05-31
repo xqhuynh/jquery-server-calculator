@@ -21,6 +21,26 @@ Link to software that is required to install the app (e.g. node).
 - Npm
 - Optional, nodemon
 
+## Structure
+```
+├── INSTRUCTIONS.md
+├── README.md
+├── images
+│   ├── baseMode.png
+│   └── stretchGoal_interface.gif
+├── package-lock.json
+├── package.json
+└── server
+    ├── public
+    │   ├── index.html
+    │   ├── scripts
+    │   │   └── client.js
+    │   ├── style.css
+    │   └── vendors
+    │       └── jquery.js
+    └── server.js
+```
+
 ## Installation
 
 1. Fork and clone repo
