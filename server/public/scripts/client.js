@@ -59,6 +59,7 @@ function postInput(inputData) {
   $.ajax({
     method: "POST",
     url: "/calculate",
+    // Data object will come from submitInputs function 'newInput'
     data: inputData,
   })
     .then((response) => {
@@ -74,7 +75,7 @@ function postInput(inputData) {
 function render() {
   // Empty results
   $(".historyRecord").empty();
-  // Loop through history and append to DOM ex. 'num1 operator num2 = total'
+  // Loop through history and append to DOM ex. Format: 'num1 operator num2 = total'
   for (let i = 0; i < history.length; i++) {
     let result = history[i];
     $(".historyRecord").append(`
@@ -84,9 +85,12 @@ function render() {
     `);
   }
 
+  // Append last answer to DOM if not undefined
   const lastIndex = history[history.length - 1];
   if (lastIndex != undefined) {
+    // Empty first
     $(".expressionResult").empty();
+    // Append answer to DOM
     $(".expressionResult").append(`
       <h3>
         ${lastIndex.total}
